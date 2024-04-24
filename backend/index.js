@@ -1,5 +1,6 @@
 const express = require("express")
 const mysql = require("mysql")
+const cookieParser = require("cookie-parser")
 
 const app = express()
 const connection = mysql.createConnection({
@@ -17,18 +18,13 @@ const connection = mysql.createConnection({
     }
     console.log('Connected to MySQL database');
   });
+
+  app.use(express.json());
+  app.use(cookieParser());
   
-  // Example route to test the connection
-  app.get('/test-connection', (req, res) => {
-    connection.query('SELECT 1 + 1 AS result', function (error, results, fields) {
-      if (error) {
-        throw error;
-      }
-      res.json({ message: 'Connection successful', result: results[0].result });
-    });
-  });
+
   
 
 app.listen(8000, () => {
     console.log('Server started on port 8000');
-  });
+});
